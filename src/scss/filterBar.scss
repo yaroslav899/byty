@@ -1,0 +1,53 @@
+.filter-bar {
+    position: relative;
+    -webkit-box-shadow: inset 0 1px 0 rgb(189 194 199 / 50%);
+    box-shadow: inset 0 1px 0 rgb(189 194 199 / 50%);
+    border-top: 2px solid #EEEEEE;
+
+    &__button {
+        border: 0;
+        color: #000000;
+        font-size: 16px;
+        background-color: #f2f3f4;
+        width: 100%;
+        height: 50px;
+        text-align: left;
+
+        span {
+            vertical-align: middle;
+            padding-left: 5px;
+        }
+    }
+
+    &__content {
+        overflow: hidden;
+        max-height: 0;
+        margin: 0 auto;
+        -webkit-transition: all 0.3s ease;
+
+        &.active{
+            max-height: 500px;
+            overflow: initial;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+
+    &__content-input {
+        margin-bottom: 10px;
+
+        & input{
+            width: 50%;
+            float: left;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            padding: 6px;
+        }
+    }
+
+    &__order {
+        position: absolute !important;
+        top: 5px;
+        right: 5px;
+    }
+}
