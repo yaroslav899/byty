@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
-import markerIcon from '../../../img/icon-h.png';
+import markerIcon from '@assets/img/icon-h.png';
 import L from 'leaflet';
 
 const RealtyListingPageView = (realtyList) => {

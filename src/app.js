@@ -1,6 +1,11 @@
-import React from 'react';
-import RealtyListingPage from './components/realty-listing-page';
+import React, { Suspense, lazy } from 'react';
+
+const RealtyListingPage = lazy(() => import('./components/realty-listing-page'));
 
 export function App() {
-    return <RealtyListingPage/>;
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <RealtyListingPage />
+        </Suspense>
+    );
 }

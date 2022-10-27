@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import PriceConverter from '../../../utils/PriceConverter';
+import PriceConverter from '@/utils/helpers/PriceConverter';
 
 export default function RealtyListElement(props) {
     const { link, image, title, type, price, square, city, location } = props;

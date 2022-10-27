@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import RealtyMapView from './views/RealtyMapView';
-import RealtyListElement from './views/RealtyListElement';
-import FilterBarView from './views/FilterBarView';
+import RealtyMapView from '@views/Map/Map';
+import RealtyListElement from '@views/RealtyListElement';
+import FilterBar from '@components/realty-listing-page/FilterBar';
 
 import { fetchRealtyList } from '../../api';
 
@@ -20,7 +20,7 @@ export default function RealtyListingPage() {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-6 reality-feed">
-                        <FilterBarView/>
+                        <FilterBar/>
                     </div>
                     <div className="col-6 reality-map">
                         <RealtyMapView />
@@ -48,7 +48,7 @@ export default function RealtyListingPage() {
         <div className="container-fluid">
             <div className="row">
                 <div className="col-6 reality-feed">
-                    <FilterBarView/>
+                    <FilterBar/>
                     {eventsElement}
                 </div>
                 <div className="col-6 reality-map">
