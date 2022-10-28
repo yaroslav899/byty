@@ -3,7 +3,13 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import markerIcon from '@assets/img/icon-h.png';
 import L from 'leaflet';
 
-const RealtyListingPageView = (realtyList) => {
+const RealtyListingPageView = ({ realtyList }) => {
+    // default coordinates for Bratislava
+    const defaultCoordinates = {
+        lat: 48.147322,
+        long: 17.171528
+    }
+
     const homeIcon = new L.Icon({
         iconUrl: markerIcon,
         iconRetinaUrl: markerIcon,
@@ -13,11 +19,11 @@ const RealtyListingPageView = (realtyList) => {
 
     let markers = [];
 
-    if (!realtyList.length) {
+    if (!realtyList || !realtyList.length) {
         return (
             <Fragment>
                 <MapContainer
-                    center={[48.147322, 17.171528]}
+                    center={[defaultCoordinates.lat, defaultCoordinates.long]}
                     zoom={13}
                     scrollWheelZoom={false}
                     attributionControl={false}
@@ -32,13 +38,14 @@ const RealtyListingPageView = (realtyList) => {
     }
 
     markers = realtyList.map((event) => {
-        return <Marker key={event.id} icon={homeIcon} position={[event.acf.longtitude, event.acf.latitude]} />
+        let longitude = event.acf ? event.acf.longitude : defaultCoordinates.long;
+        let latitude = event.acf ? event.acf.latitude : defaultCoordinates.lat;
+        return <Marker key={event.id} icon={homeIcon} position={[longitude, latitude]} />
     });
 
     return (
         <Fragment>
             <MapContainer
-                center={[48.147322, 17.171528]}
                 zoom={13}
                 scrollWheelZoom={false}
                 attributionControl={false}

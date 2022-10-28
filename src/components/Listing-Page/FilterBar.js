@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select'
 
-import FilterSelects from '@components/realty-listing-page/FilterSelects';
+import FilterSelects from '@components/Listing-Page/FilterSelects';
 
-export default function FilterBarView({ sortingOptions, handleToggle, isHide }) {
+import { sortingOptions } from '@/utils/constants/sortingOptions';
+
+import '@/scss/filterBar.scss';
+
+export default function FilterBar() {
+    const [isHide, setActive] = useState("false");
+
+    const handleToggle = () => {
+        setActive(!isHide);
+    }
+
     return (
         <div className="reality-feed__filter-bar filter-bar">
             <button type="button" className={`col-12 filter-bar__button icon-three ${isHide ? "" : "active-three"}`} onClick={handleToggle}>
@@ -12,6 +22,7 @@ export default function FilterBarView({ sortingOptions, handleToggle, isHide }) 
             
             <div className={`col-12 row filter-bar__content ${isHide ? "" : "active"}`}>
                 <FilterSelects />
+                <button>filter</button>
             </div>
 
             <Select
