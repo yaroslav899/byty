@@ -5,6 +5,7 @@
     border-top: 2px solid #EEEEEE;
 
     &__button {
+        cursor: pointer;
         border: 0;
         color: #000000;
         font-size: 16px;
@@ -13,9 +14,49 @@
         height: 45px;
         text-align: left;
 
-        span {
-            vertical-align: middle;
-            padding-left: 5px;
+        .hamburger {
+            width: 30px;
+            height: 3px;
+            background: #FCFCFC;
+            position: absolute;
+            box-shadow: 0 2px 5px rgba(189, 171, 171, 0.2);
+            transition: 0.5s;
+        }
+
+        .hamburger:before,
+        .hamburger:after {
+          content: '';
+          position:absolute;
+          width: 30px;
+          height: 3px;
+          background:#FCFCFC;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          transition:0.5s;
+        }
+
+        .hamburger:before {
+          top: -8px;
+        }
+
+        .hamburger:after {
+          top: 8px;
+        }
+    }
+
+    &__button.active {
+        .hamburger {
+            background:rgba(0,0,0,0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+        }
+        .hamburger:before {
+            top: 0;
+            transform:rotate(135deg);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .hamburger:after {
+            top: 0;
+            transform:rotate(225deg);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
         }
     }
 
@@ -51,58 +92,3 @@
         right: 5px;
     }
 }
-
-
-
-
-.hamburger {
-    width: 30px;
-    height: 3px;
-    background: #FCFCFC;
-    position: absolute;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
-    transition: 0.5s;
-  }
-  
-  .hamburger:before {
-    top: -8px;
-  }
-  
-  .hamburger:after {
-    top: 8px;
-  }
-  
-  /* Icon 3 */
-  .icon-three {
-    cursor: pointer;
-  }
-  
-  .hamburger-three:before,
-  .hamburger-three:after {
-    content: '';
-    position:absolute;
-    width: 30px;
-    height: 3px;
-    background:#FCFCFC;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition:0.5s;
-  }
-  
-  .icon-three.active-three .hamburger-three {
-    background:rgba(0,0,0,0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
-  }
-  
-  .icon-three.active-three .hamburger-three:before {
-    top: 0;
-    transform:rotate(135deg);
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .icon-three.active-three .hamburger-three:after {
-    top: 0;
-    transform:rotate(225deg);
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  

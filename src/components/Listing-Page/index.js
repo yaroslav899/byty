@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
-import Map from '@views/Map/Map';
-import RealtyListElement from '@views/RealtyListElement';
+// Components
 import FilterBar from '@components/Listing-Page/FilterBar';
 import Breadcrumbs from '@components/Listing-Page/Breadcrumbs';
+
+// Views
+import Map from '@views/Map/Map';
+import RealtyListElement from '@views/RealtyListElement';
+
+// Utils
 import Spinner from '@/utils/global/Spinner';
 
 export default function RealtyListingPage() {
@@ -51,16 +56,25 @@ export default function RealtyListingPage() {
         />
     });
 
+    const pageInformation = () => {
+        if (!eventsElement.length) {
+            return <Spinner />
+        }
+
+        return (
+            <Fragment>
+                { eventsElement }
+                <Breadcrumbs pagesInfo={pagesInfo} />
+            </Fragment>
+        )
+    }
+
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-6 reality-feed">
                     <FilterBar />
-                    { eventsElement.length
-                        ? eventsElement
-                        : <Spinner />
-                    }
-                    <Breadcrumbs pagesInfo={pagesInfo} />
+                    { pageInformation() }
                 </div>
                 <div className="col-6 reality-map">
                     <Map realtyList={realtyList}/>
