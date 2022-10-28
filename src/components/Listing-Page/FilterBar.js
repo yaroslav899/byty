@@ -1,8 +1,11 @@
+// API
 import React, { useState } from 'react';
 import Select from 'react-select'
 
+// Components
 import FilterSelects from '@components/Listing-Page/FilterSelects';
 
+// Utils
 import { sortingOptions } from '@/utils/constants/sortingOptions';
 
 import '@/scss/filterBar.scss';

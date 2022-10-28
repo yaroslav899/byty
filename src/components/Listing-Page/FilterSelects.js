@@ -1,7 +1,9 @@
+// API
 import React, { Fragment } from 'react';
 import Select, { components } from "react-select";
 import makeAnimated from 'react-select/animated';
 
+// Utils
 import { options, stav, type } from '@/utils/constants/filters';
 
 const animatedComponents = makeAnimated();

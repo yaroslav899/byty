@@ -1,3 +1,4 @@
+// API
 import React, { Fragment, PureComponent } from 'react';
 
 class PriceConverter extends PureComponent {

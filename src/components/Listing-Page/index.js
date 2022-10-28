@@ -1,3 +1,4 @@
+// API
 import React, { Fragment, useState, useEffect } from 'react';
 
 // Components
@@ -13,7 +14,8 @@ import Spinner from '@/utils/global/Spinner';
 
 export default function RealtyListingPage() {
     const [realtyList, setRealtyList] = useState([]);
-    const [pagesInfo, setPagesInfo] = useState({totalCount: 1, totalPages: 1});
+    // const [totalCount, setTotalCount] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         fetch('https://test.event-camp.org/wp-json/wp/v2/posts?page=1')
@@ -21,10 +23,8 @@ export default function RealtyListingPage() {
                 var data = [];
 
                 if (response.status === 200) {
-                    setPagesInfo({
-                        totalCount: response.headers.get( 'x-wp-total'),
-                        totalPages: response.headers.get( 'x-wp-totalpages'),
-                    });
+                    // setTotalCount(response.headers.get( 'x-wp-total'));
+                    setTotalPages(response.headers.get( 'x-wp-totalpages'));
 
                     data = response.json();
                 }
@@ -64,7 +64,7 @@ export default function RealtyListingPage() {
         return (
             <Fragment>
                 { eventsElement }
-                <Breadcrumbs pagesInfo={pagesInfo} />
+                <Breadcrumbs totalPages={totalPages} />
             </Fragment>
         )
     }

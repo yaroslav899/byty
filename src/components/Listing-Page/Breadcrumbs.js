@@ -1,8 +1,7 @@
+// API
 import React from 'react';
 
-export default function Breadcrumbs({ pagesInfo }) {
-    var { totalPages} = pagesInfo;
-    
+export default function Breadcrumbs({ totalPages }) {
     const paginations = [];
 
     for (let i = 0; i < totalPages; i++ ) {
