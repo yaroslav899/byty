@@ -42,6 +42,10 @@ export default function RealtyListingPage() {
             })
     }, []);
 
+    useEffect(() => {
+        console.log('asd');
+    }, [realtyList]);
+
     const eventsElement = realtyList.map((event) => {
         return <RealtyListElement 
             key={event.id}
@@ -64,7 +68,7 @@ export default function RealtyListingPage() {
         return (
             <Fragment>
                 { eventsElement }
-                <Breadcrumbs totalPages={totalPages} />
+                <Breadcrumbs setRealtyList={setRealtyList} setTotalPages={setTotalPages} totalPages={totalPages} />
             </Fragment>
         )
     }
