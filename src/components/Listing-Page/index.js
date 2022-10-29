@@ -1,5 +1,5 @@
 // API
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Components
 import FilterBar from '@components/Listing-Page/FilterBar';
@@ -66,10 +66,10 @@ export default function RealtyListingPage() {
         }
 
         return (
-            <Fragment>
+            <>
                 { eventsElement }
                 <Breadcrumbs setRealtyList={setRealtyList} setTotalPages={setTotalPages} totalPages={totalPages} />
-            </Fragment>
+            </>
         )
     }
 
