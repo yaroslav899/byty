@@ -19,50 +19,46 @@ export default function RealtyListingPage() {
 
     useEffect(() => {
         fetch('https://test.event-camp.org/wp-json/wp/v2/posts?page=1')
-            .then(response => {
-                var data = [];
+            .then((response) => {
+                let data = [];
 
                 if (response.status === 200) {
                     // setTotalCount(response.headers.get( 'x-wp-total'));
-                    setTotalPages(response.headers.get( 'x-wp-totalpages'));
+                    setTotalPages(response.headers.get('x-wp-totalpages'));
 
                     data = response.json();
                 }
 
                 return data;
             })
-            .then(data => {
-                return data;
-            })
-            .catch(error => {
+            .then((data) => data)
+            .catch((error) => {
                 console.log(error);
             })
             .then((response) => {
                 setRealtyList(response);
-            })
+            });
     }, []);
 
     useEffect(() => {
         console.log('asd');
     }, [realtyList]);
 
-    const eventsElement = realtyList.map((event) => {
-        return <RealtyListElement 
-            key={event.id}
-            link={event.link}
-            image={event.acf ? event.acf.images.url : ''}
-            title={event.title.rendered || ''}
-            type={event.acf in event ? event.acf.type : ''}
-            price={event.acf in event ? event.acf.price : ''}
-            square={event.acf in event ? event.acf.square : ''}
-            city={event.acf in event ? event.acf.city : ''}
-            location={event.acf in event ? event.acf.location : ''}
-        />
-    });
+    const eventsElement = realtyList.map((event) => <RealtyListElement
+        key={event.id}
+        link={event.link}
+        image={event.acf ? event.acf.images.url : ''}
+        title={event.title.rendered || ''}
+        type={event.acf in event ? event.acf.type : ''}
+        price={event.acf in event ? event.acf.price : ''}
+        square={event.acf in event ? event.acf.square : ''}
+        city={event.acf in event ? event.acf.city : ''}
+        location={event.acf in event ? event.acf.location : ''}
+    />);
 
     const pageInformation = () => {
         if (!eventsElement.length) {
-            return <Spinner />
+            return <Spinner />;
         }
 
         return (
@@ -70,8 +66,8 @@ export default function RealtyListingPage() {
                 { eventsElement }
                 <Breadcrumbs setRealtyList={setRealtyList} setTotalPages={setTotalPages} totalPages={totalPages} />
             </>
-        )
-    }
+        );
+    };
 
     return (
         <div className="container-fluid">
@@ -81,7 +77,7 @@ export default function RealtyListingPage() {
                     { pageInformation() }
                 </div>
                 <div className="col-6 reality-map">
-                    <Map realtyList={realtyList}/>
+                    <Map realtyList={realtyList} />
                 </div>
             </div>
         </div>

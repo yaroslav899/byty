@@ -1,10 +1,8 @@
 // API
-import React, { Fragment} from 'react';
+import React from 'react';
 
 export default function FilterDropdownSelects() {
     return (
-        <Fragment>
-            asdas
-        </Fragment>
-    )
+        <>asdas</>
+    );
 }
