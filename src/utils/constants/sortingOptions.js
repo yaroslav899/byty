@@ -6,5 +6,5 @@ export const sortingOptions = [
     { value: 'vanilla', label: 'Cena - od najlacnejších' },
     { value: 'vanilla', label: 'Cena - od najdrahších' },
     { value: 'vanilla', label: 'Vytvorené - najnovšie' },
-    { value: 'vanilla', label: 'Vytvorené - najstaršie' }
+    { value: 'vanilla', label: 'Vytvorené - najstaršie' },
 ];

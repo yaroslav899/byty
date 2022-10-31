@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 // API
 import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -13,5 +14,5 @@ root.render(
         <BrowserRouter>
             <App />
         </BrowserRouter>
-    </StrictMode>
+    </StrictMode>,
 );

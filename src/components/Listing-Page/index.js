@@ -1,3 +1,5 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 // API
 import React, { useState, useEffect } from 'react';
 

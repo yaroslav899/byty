@@ -1,6 +1,8 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 // API
-import React, { Fragment } from 'react';
-import Select, { components } from "react-select";
+import React from 'react';
+import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 // Utils
@@ -8,34 +10,38 @@ import { options, stav, type } from '@/utils/constants/filters';
 
 const animatedComponents = makeAnimated();
 
-const handleHeaderClick = id => {
+const handleHeaderClick = (id) => {
+    // ToDo: Should be optimized
     const node = document.querySelector(`#${id}`).parentElement
         .nextElementSibling;
     const classes = node.classList;
 
-    if (classes.contains("hide")) {
-        node.classList.remove("hide");
+    if (classes.contains('hide')) {
+        node.classList.remove('hide');
     } else {
-        node.classList.add("hide");
+        node.classList.add('hide');
     }
 };
 
-const customStyles = {}
+const customStyles = {};
 
-const CustomGroupHeading = props => {
+function CustomGroupHeading(props) {
+    const { id } = props;
+
     return (
-        <div
+        <button
+            type="button"
             className="group-heading-wrapper"
-            onClick={() => handleHeaderClick(props.id)}
+            onClick={() => handleHeaderClick(id)}
         >
             <components.GroupHeading {...props} />
-        </div>
+        </button>
     );
-};
+}
 
 export default function FilterSelects() {
     return (
-        <Fragment>
+        <>
             <Select
                 className="col-8 filter-bar__content-input"
                 closeMenuOnSelect={false}
@@ -43,7 +49,7 @@ export default function FilterSelects() {
                 isMulti
                 options={options}
                 placeholder="Lokalita: Napíšte, kde hľadáte nehnuteľnosť"
-                noOptionsMessage={() => 'No results found' }
+                noOptionsMessage={() => 'No results found'}
             />
             <Select
                 className="col-4 filter-bar__content-input"
@@ -71,10 +77,12 @@ export default function FilterSelects() {
                 placeholder="Stav"
                 options={stav}
             />
-            <label className="col-4 filter-bar__content-input">
-                <input type="number" placeholder="Cena od: €"/>
-                <input type="number" placeholder="Cena do: €"/>
+            <label className="col-2 filter-bar__content-input" htmlFor="price-from">
+                <input type="number" placeholder="Cena od:" />
             </label>
-        </Fragment>
-    )
+            <label className="col-2 filter-bar__content-input" htmlFor="price-until">
+                <input type="number" placeholder="Cena do:" />
+            </label>
+        </>
+    );
 }

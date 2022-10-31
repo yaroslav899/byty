@@ -8,5 +8,5 @@ export default function Spinner() {
                 <span className="visually-hidden">Loading...</span>
             </div>
         </div>
-    )
+    );
 }

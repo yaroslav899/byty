@@ -19,6 +19,7 @@ module.exports = {
     rules: {
         'react/prop-types': 'off',
         indent: ['error', 4],
+        'react/jsx-props-no-spreading': 'off',
         'react/jsx-indent': ['error', 4],
         'react/jsx-indent-props': 'off',
         'react/jsx-wrap-multilines': 0,
