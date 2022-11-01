@@ -8,6 +8,7 @@ export function App() {
         <Suspense fallback={<div>Loading...</div>}>
             <Routes>
                 <Route path="/" element={<RealtyListingPage />} />
+                <Route path="/:category" element={<RealtyListingPage />} />
                 {/* There is should be 404 page */}
                 <Route path="*" element={<RealtyListingPage />} />
             </Routes>

@@ -33,7 +33,7 @@ export default function Breadcrumbs({ setRealtyList, setTotalPages, totalPages }
 
     for (let i = 0; i < totalPages; i++) {
         paginations.push(
-            <li className={`page-item ${i === 0 ? 'active' : ''}`}>
+            <li className={`page-item ${i === 0 ? 'active' : ''}`} key={i}>
                 <button type="button" className="page-link" aria-current="page" href="#" onClick={() => goToPage(i + 1)}>
                     { i + 1 }
                 </button>

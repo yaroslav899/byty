@@ -39,12 +39,11 @@ module.exports = {
             '@views': path.resolve(__dirname, 'src/views')
         },
     },
-    
     devServer: {
         static: './dist',
         hot: true,
+        historyApiFallback: true,
     },
-
     output: {
         path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: 'assets/[hash][ext][query]',

@@ -2,6 +2,7 @@
 /* eslint-disable import/no-unresolved */
 // API
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 // Components
 import FilterBar from '@components/Listing-Page/FilterBar';
@@ -13,38 +14,30 @@ import RealtyListElement from '@views/RealtyListElement';
 
 // Utils
 import Spinner from '@/utils/global/Spinner';
+import { getRealtyList } from '@/api';
 
 export default function RealtyListingPage() {
     const [realtyList, setRealtyList] = useState([]);
-    // const [totalCount, setTotalCount] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
-        fetch('https://test.event-camp.org/wp-json/wp/v2/posts?page=1')
-            .then((response) => {
-                let data = [];
+    const { category } = useParams();
 
-                if (response.status === 200) {
-                    // setTotalCount(response.headers.get( 'x-wp-total'));
-                    setTotalPages(response.headers.get('x-wp-totalpages'));
-
-                    data = response.json();
-                }
-
-                return data;
-            })
-            .then((data) => data)
-            .catch((error) => {
-                console.log(error);
-            })
-            .then((response) => {
+    useEffect(
+        () => getRealtyList()
+            .then(({ response, totalpages }) => {
+                setTotalPages(totalpages);
                 setRealtyList(response);
-            });
-    }, []);
+            }),
+        [],
+    );
 
     useEffect(() => {
-        console.log('asd');
+        console.log('realty list was updated');
     }, [realtyList]);
+
+    useEffect(() => {
+        console.log('category was updated');
+    }, [category]);
 
     const eventsElement = realtyList.map((event) => <RealtyListElement
         key={event.id}
