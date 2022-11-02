@@ -23,21 +23,21 @@ export default function RealtyListingPage() {
     const { category } = useParams();
 
     useEffect(
-        () => getRealtyList()
-            .then(({ response, totalpages }) => {
+        () => {
+            async function updateRealtyList() {
+                const { response, totalpages } = await getRealtyList();
                 setTotalPages(totalpages);
                 setRealtyList(response);
-            }),
-        [],
+            }
+
+            updateRealtyList();
+        },
+        [category],
     );
 
     useEffect(() => {
-        console.log('realty list was updated');
+        // console.log('realty list was updated');
     }, [realtyList]);
-
-    useEffect(() => {
-        console.log('category was updated');
-    }, [category]);
 
     const eventsElement = realtyList.map((event) => <RealtyListElement
         key={event.id}
@@ -59,7 +59,11 @@ export default function RealtyListingPage() {
         return (
             <>
                 { eventsElement }
-                <Breadcrumbs setRealtyList={setRealtyList} setTotalPages={setTotalPages} totalPages={totalPages} />
+                <Breadcrumbs
+                    setRealtyList={setRealtyList}
+                    setTotalPages={setTotalPages}
+                    totalPages={totalPages}
+                />
             </>
         );
     };

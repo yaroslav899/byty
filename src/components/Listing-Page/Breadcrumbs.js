@@ -1,40 +1,37 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 // API
-import React from 'react';
+import React, { useState } from 'react';
+
+import { getRealtyList } from '@/api';
 
 export default function Breadcrumbs({ setRealtyList, setTotalPages, totalPages }) {
+    console.log('breadcrumbs trigger');
+
+    const [activePage, setActivePage] = useState(1);
+
     const goToPage = (pageNumber) => {
         window.scrollTo(0, 0);
 
+        setActivePage(pageNumber);
+
         setRealtyList([]);
 
-        return fetch(`https://test.event-camp.org/wp-json/wp/v2/posts?page=${pageNumber}`)
-            .then((response) => {
-                let data = [];
+        async function updateRealtyList() {
+            const { response, totalpages } = await getRealtyList(pageNumber);
+            setTotalPages(totalpages);
+            setRealtyList(response);
+        }
 
-                if (response.status === 200) {
-                    // setTotalCount(response.headers.get( 'x-wp-total'));
-                    setTotalPages(response.headers.get('x-wp-totalpages'));
-
-                    data = response.json();
-                }
-
-                return data;
-            })
-            .then((data) => data)
-            .catch((error) => {
-                console.log(error);
-            })
-            .then((response) => {
-                setRealtyList(response);
-            });
+        updateRealtyList();
     };
 
     const paginations = [];
 
     for (let i = 0; i < totalPages; i++) {
         paginations.push(
-            <li className={`page-item ${i === 0 ? 'active' : ''}`} key={i}>
-                <button type="button" className="page-link" aria-current="page" href="#" onClick={() => goToPage(i + 1)}>
+            <li className={`page-item ${i + 1 === activePage ? 'active' : ''}`} key={i}>
+                <button type="button" className="page-link" aria-current="page" onClick={() => goToPage(i + 1)}>
                     { i + 1 }
                 </button>
             </li>,
