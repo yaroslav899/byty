@@ -6,7 +6,7 @@ import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 // Utils
-import { options, stav, type } from '@/utils/constants/filters';
+import { options, stav, type } from '@/utils/constants/sk/filters';
 
 const animatedComponents = makeAnimated();
 

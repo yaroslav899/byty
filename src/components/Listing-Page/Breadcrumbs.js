@@ -1,36 +1,20 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/extensions */
 // API
-import React, { useState } from 'react';
+import React, { memo } from 'react';
 
-import { getRealtyList } from '@/api';
+function Breadcrumbs({ setPage, activePageNumber, totalPages }) {
+    console.log('breadcrumbs initialization');
 
-export default function Breadcrumbs({ setRealtyList, setTotalPages, totalPages }) {
-    console.log('breadcrumbs trigger');
-
-    const [activePage, setActivePage] = useState(1);
-
-    const goToPage = (pageNumber) => {
+    function goToPage(pageNumber) {
         window.scrollTo(0, 0);
 
-        setActivePage(pageNumber);
-
-        setRealtyList([]);
-
-        async function updateRealtyList() {
-            const { response, totalpages } = await getRealtyList(pageNumber);
-            setTotalPages(totalpages);
-            setRealtyList(response);
-        }
-
-        updateRealtyList();
-    };
+        setPage(pageNumber);
+    }
 
     const paginations = [];
 
     for (let i = 0; i < totalPages; i++) {
         paginations.push(
-            <li className={`page-item ${i + 1 === activePage ? 'active' : ''}`} key={i}>
+            <li className={`page-item ${i + 1 === activePageNumber ? 'active' : ''}`} key={i}>
                 <button type="button" className="page-link" aria-current="page" onClick={() => goToPage(i + 1)}>
                     { i + 1 }
                 </button>
@@ -41,14 +25,28 @@ export default function Breadcrumbs({ setRealtyList, setTotalPages, totalPages }
     return (
         <nav aria-label="...">
             <ul className="pagination">
-                <li className="page-item disabled">
-                    <button type="button" className="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</button>
+                <li className={`page-item ${activePageNumber === 1 ? 'disabled' : ''}`}>
+                    <button
+                        type="button"
+                        className="page-link"
+                        onClick={() => goToPage(activePageNumber - 1)}
+                    >
+                        Previous
+                    </button>
                 </li>
                 { paginations }
-                <li className="page-item">
-                    <button type="button" className="page-link" href="#">Next</button>
+                <li className={`page-item ${activePageNumber === totalPages.length + 1 ? 'disabled' : ''}`}>
+                    <button
+                        type="button"
+                        className="page-link"
+                        onClick={() => goToPage(activePageNumber + 1)}
+                    >
+                        Next
+                    </button>
                 </li>
             </ul>
         </nav>
     );
 }
+
+export default memo(Breadcrumbs);

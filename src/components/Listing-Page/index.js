@@ -2,7 +2,8 @@
 /* eslint-disable import/no-unresolved */
 // API
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 // Components
 import FilterBar from '@components/Listing-Page/FilterBar';
@@ -17,29 +18,39 @@ import Spinner from '@/utils/global/Spinner';
 import { getRealtyList } from '@/api';
 
 export default function RealtyListingPage() {
-    const [realtyList, setRealtyList] = useState([]);
+    console.log('initialize component RealtyListingPage');
+
+    useEffect(() => {
+        console.log('mounted component RealtyListingPage');
+    }, []);
+
     const [totalPages, setTotalPages] = useState(1);
+    const [activePageNumber, setPage] = useState(1);
 
     const { category } = useParams();
 
-    useEffect(
-        () => {
-            async function updateRealtyList() {
-                const { response, totalpages } = await getRealtyList();
-                setTotalPages(totalpages);
-                setRealtyList(response);
-            }
+    const { isLoading, isError, error, data } = useQuery(
+        ['realtyList', activePageNumber, category],
+        async () => {
+            const { response, totalpages } = await getRealtyList(activePageNumber, category);
+            setTotalPages(totalpages);
 
-            updateRealtyList();
+            return response;
         },
-        [category],
+        { keepPreviousData: true },
     );
 
-    useEffect(() => {
-        // console.log('realty list was updated');
-    }, [realtyList]);
+    if (isLoading) {
+        return <Spinner />;
+    }
 
-    const eventsElement = realtyList.map((event) => <RealtyListElement
+    if (isError) {
+        console.log(error);
+
+        return <p>Error</p>;
+    }
+
+    const eventsElement = data.map((event) => <RealtyListElement
         key={event.id}
         link={event.link}
         image={event.acf ? event.acf.images.url : ''}
@@ -51,32 +62,31 @@ export default function RealtyListingPage() {
         location={event.acf in event ? event.acf.location : ''}
     />);
 
-    const pageInformation = () => {
-        if (!eventsElement.length) {
-            return <Spinner />;
-        }
-
-        return (
-            <>
-                { eventsElement }
-                <Breadcrumbs
-                    setRealtyList={setRealtyList}
-                    setTotalPages={setTotalPages}
-                    totalPages={totalPages}
-                />
-            </>
-        );
-    };
-
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-6 reality-feed">
                     <FilterBar />
-                    { pageInformation() }
+                    <NavLink
+                        to="/category"
+                    >
+                        Link with Category
+                    </NavLink>
+                    <br />
+                    <NavLink
+                        to="/"
+                    >
+                        Link to main
+                    </NavLink>
+                    { eventsElement }
+                    <Breadcrumbs
+                        setPage={setPage}
+                        activePageNumber={activePageNumber}
+                        totalPages={totalPages}
+                    />
                 </div>
                 <div className="col-6 reality-map">
-                    <Map realtyList={realtyList} />
+                    <Map realtyList={[]} />
                 </div>
             </div>
         </div>

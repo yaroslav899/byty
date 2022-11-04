@@ -1,7 +1,12 @@
-export const getRealtyList = () => {
+export const getRealtyList = (pageNumber, category) => {
     let totalpages = 0;
+    let url = `https://test.event-camp.org/wp-json/wp/v2/posts?page=${pageNumber}`;
 
-    return fetch('https://test.event-camp.org/wp-json/wp/v2/posts?page=1')
+    if (category) {
+        url = `${url}&categories=${12}`;
+    }
+
+    return fetch(url)
         .then((response) => {
             let data = [];
 

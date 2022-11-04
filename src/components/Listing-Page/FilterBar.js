@@ -8,7 +8,7 @@ import Select from 'react-select';
 import FilterSelects from '@components/Listing-Page/FilterSelects';
 
 // Utils
-import { sortingOptions } from '@/utils/constants/sortingOptions';
+import { sortingOptions } from '@/utils/constants/sk/sortingOptions';
 
 import '@/scss/filterBar.scss';
 
