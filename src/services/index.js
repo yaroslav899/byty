@@ -1,4 +1,4 @@
-export const getRealtyList = (pageNumber, category) => {
+export const fetchRealtyList = (pageNumber, category) => {
     let totalpages = 0;
     let url = `https://test.event-camp.org/wp-json/wp/v2/posts?page=${pageNumber}`;
 

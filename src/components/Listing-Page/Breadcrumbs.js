@@ -1,13 +1,13 @@
 // API
 import React, { memo } from 'react';
 
-function Breadcrumbs({ setPage, activePageNumber, totalPages }) {
+function Breadcrumbs({ setActivePage, activePageNumber, totalPages }) {
     console.log('breadcrumbs initialization');
 
     const goToPage = (pageNumber) => {
         window.scrollTo(0, 0);
 
-        setPage(pageNumber);
+        setActivePage(pageNumber);
     };
 
     const paginations = [];

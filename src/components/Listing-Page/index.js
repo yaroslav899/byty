@@ -11,9 +11,18 @@ import Breadcrumbs from '@components/Listing-Page/Breadcrumbs';
 import RealtyListElement from '@components/Listing-Page/RealtyListElement';
 import Map from '@components/global/Map';
 
+// Hooks
+import useLocalStorage from '@/hooks/useLocalStorage';
+
 // Utils
 import Spinner from '@/utils/global/Spinner';
-import { getRealtyList } from '@/services';
+
+// Services
+import { fetchRealtyList } from '@/services';
+
+// import { useQueryClient } from 'react-query';
+// const queryClient = useQueryClient();
+// const data = queryClient.getQueryData(['realtyList'], { exact: false });
 
 export default function RealtyListingPage() {
     console.log('initialize component RealtyListingPage');
@@ -22,15 +31,34 @@ export default function RealtyListingPage() {
         console.log('mounted component RealtyListingPage');
     }, []);
 
+    // State
     const [totalPages, setTotalPages] = useState(1);
-    const [activePageNumber, setPage] = useState(1);
+    const [activePageNumber, setActivePage] = useState(1);
 
+    // LocalStorage Hook
+    const [pageData, setPageDataToLocalStorage] = useLocalStorage('pageData', null);
+    console.log(pageData);
+
+    // Get Params
     const { category } = useParams();
 
+    // Use Query
     const { isLoading, isError, isSuccess, data = [] } = useQuery(
         ['realtyList', activePageNumber, category],
         async () => {
-            const { response, totalpages } = await getRealtyList(activePageNumber, category);
+            if (pageData && pageData.data.length && pageData.totalPages && pageData.activePageNumber) {
+                // eslint-disable-next-line no-debugger
+                console.log(pageData);
+                setTotalPages(pageData.totalPages);
+                setActivePage(pageData.activePageNumber);
+
+                // Clear Local Storage
+                setPageDataToLocalStorage(null);
+
+                return pageData.data;
+            }
+
+            const { response, totalpages } = await fetchRealtyList(activePageNumber, category);
             setTotalPages(totalpages);
 
             return response;
@@ -49,14 +77,11 @@ export default function RealtyListingPage() {
     const eventsElement = data.length
         ? data.map((event) => <RealtyListElement
             key={event.id}
-            link={event.link}
-            image={event.acf ? event.acf.images.url : ''}
-            title={event.title.rendered || ''}
-            type={event.acf in event ? event.acf.type : ''}
-            price={event.acf in event ? event.acf.price : ''}
-            square={event.acf in event ? event.acf.square : ''}
-            city={event.acf in event ? event.acf.city : ''}
-            location={event.acf in event ? event.acf.location : ''}
+            event={event}
+            data={data}
+            totalPages={totalPages}
+            activePageNumber={activePageNumber}
+            setPageDataToLocalStorage={setPageDataToLocalStorage}
         />)
         : [];
 
@@ -72,16 +97,15 @@ export default function RealtyListingPage() {
                     { isError
                         && <p>Error</p>}
 
-                    { eventsElement.length
-                        && eventsElement}
+                    { isSuccess && eventsElement.length
+                        && eventsElement }
 
                     { isSuccess && eventsElement.length
-                        ? <Breadcrumbs
-                            setPage={setPage}
+                        && <Breadcrumbs
+                            setActivePage={setActivePage}
                             activePageNumber={activePageNumber}
                             totalPages={totalPages}
-                        />
-                        : ''}
+                        />}
 
                     { isSuccess && !eventsElement.length
                         && <p>There are no realty for this request</p>}
