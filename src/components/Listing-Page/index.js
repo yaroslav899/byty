@@ -46,6 +46,7 @@ export default function RealtyListingPage() {
     const { isLoading, isError, isSuccess, data = [] } = useQuery(
         ['realtyList', activePageNumber, category],
         async () => {
+            // TODO: Need to check does it work if user close the tab. Approach should be optimized
             if (pageData && pageData.data.length && pageData.totalPages && pageData.activePageNumber) {
                 // eslint-disable-next-line no-debugger
                 console.log(pageData);
