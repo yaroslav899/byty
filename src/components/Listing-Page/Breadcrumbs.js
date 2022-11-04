@@ -4,11 +4,11 @@ import React, { memo } from 'react';
 function Breadcrumbs({ setPage, activePageNumber, totalPages }) {
     console.log('breadcrumbs initialization');
 
-    function goToPage(pageNumber) {
+    const goToPage = (pageNumber) => {
         window.scrollTo(0, 0);
 
         setPage(pageNumber);
-    }
+    };
 
     const paginations = [];
 

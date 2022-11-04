@@ -12,12 +12,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const plugins = [
-    new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css',
-    }),
-    new HtmlWebpackPlugin({
-        template: './src/index.html',
-    }),
+    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+    new HtmlWebpackPlugin({ template: './src/index.html' }),
     new ESLintPlugin(),
 ];
 
@@ -36,7 +32,7 @@ module.exports = {
             '@': path.resolve(__dirname, 'src'),
             '@assets': path.resolve(__dirname, 'src/assets'),
             '@components': path.resolve(__dirname, 'src/components'),
-            '@views': path.resolve(__dirname, 'src/views')
+            '@layouts': path.resolve(__dirname, 'src/layouts'),
         },
     },
     devServer: {
@@ -49,7 +45,6 @@ module.exports = {
         assetModuleFilename: 'assets/[hash][ext][query]',
         clean: true,
     },
-
     module: {
         rules: [
             { test: /\.(html)$/, use: ['html-loader'] },
@@ -75,9 +70,7 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                    options: {
-                        cacheDirectory: true,
-                    },
+                    options: { cacheDirectory: true },
                 },
             },
         ],

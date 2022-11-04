@@ -1,7 +1,16 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import React, { Fragment } from 'react';
+import React from 'react';
 
+// import { useQueryClient } from 'react-query';
+
+// Components
+import Image from '@components/global/Image';
+
+// Hooks
+// import useLocalStorage from '@/hooks/useLocalStorage';
+
+// Utils
 import PriceConverter from '@/utils/helpers/PriceConverter';
 
 export default function RealtyListElement(props) {
@@ -9,15 +18,22 @@ export default function RealtyListElement(props) {
         link, image, title, type, price, square, city, location,
     } = props;
 
+    // const queryClient = useQueryClient();
+    // const data = queryClient.getQueryData(['realtyList'], { exact: false });
+
     return (
         <>
             <hr />
             <article className="row realty-item-preview">
                 <div className="col-6">
-                    <picture className="realty-item-preview__image">
-                        <source srcSet={image} type="image/svg+xml" />
-                        <img src={image} className="img-fluid" alt={title} />
-                    </picture>
+                    <a href={link}>
+                        <Image
+                            src={image}
+                            title={title}
+                            pictureClassName="realty-item-preview__image"
+                            imgClassName="img-fluid"
+                        />
+                    </a>
                 </div>
                 <div className="col-6">
                     <a href={link}>

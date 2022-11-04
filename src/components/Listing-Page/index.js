@@ -2,20 +2,18 @@
 /* eslint-disable import/no-unresolved */
 // API
 import React, { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 // Components
 import FilterBar from '@components/Listing-Page/FilterBar';
 import Breadcrumbs from '@components/Listing-Page/Breadcrumbs';
-
-// Views
-import Map from '@views/Map/Map';
-import RealtyListElement from '@views/RealtyListElement';
+import RealtyListElement from '@components/Listing-Page/RealtyListElement';
+import Map from '@components/global/Map';
 
 // Utils
 import Spinner from '@/utils/global/Spinner';
-import { getRealtyList } from '@/api';
+import { getRealtyList } from '@/services';
 
 export default function RealtyListingPage() {
     console.log('initialize component RealtyListingPage');
@@ -29,7 +27,7 @@ export default function RealtyListingPage() {
 
     const { category } = useParams();
 
-    const { isLoading, isError, error, data } = useQuery(
+    const { isLoading, isError, isSuccess, data = [] } = useQuery(
         ['realtyList', activePageNumber, category],
         async () => {
             const { response, totalpages } = await getRealtyList(activePageNumber, category);
@@ -37,56 +35,59 @@ export default function RealtyListingPage() {
 
             return response;
         },
-        { keepPreviousData: true },
+        {
+            keepPreviousData: true,
+            onSuccess: () => {
+                console.log('Get data!');
+            },
+            onError: (error) => {
+                console.log(error.message);
+            },
+        },
     );
 
-    if (isLoading) {
-        return <Spinner />;
-    }
-
-    if (isError) {
-        console.log(error);
-
-        return <p>Error</p>;
-    }
-
-    const eventsElement = data.map((event) => <RealtyListElement
-        key={event.id}
-        link={event.link}
-        image={event.acf ? event.acf.images.url : ''}
-        title={event.title.rendered || ''}
-        type={event.acf in event ? event.acf.type : ''}
-        price={event.acf in event ? event.acf.price : ''}
-        square={event.acf in event ? event.acf.square : ''}
-        city={event.acf in event ? event.acf.city : ''}
-        location={event.acf in event ? event.acf.location : ''}
-    />);
+    const eventsElement = data.length
+        ? data.map((event) => <RealtyListElement
+            key={event.id}
+            link={event.link}
+            image={event.acf ? event.acf.images.url : ''}
+            title={event.title.rendered || ''}
+            type={event.acf in event ? event.acf.type : ''}
+            price={event.acf in event ? event.acf.price : ''}
+            square={event.acf in event ? event.acf.square : ''}
+            city={event.acf in event ? event.acf.city : ''}
+            location={event.acf in event ? event.acf.location : ''}
+        />)
+        : [];
 
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-6 reality-feed">
                     <FilterBar />
-                    <NavLink
-                        to="/category"
-                    >
-                        Link with Category
-                    </NavLink>
-                    <br />
-                    <NavLink
-                        to="/"
-                    >
-                        Link to main
-                    </NavLink>
-                    { eventsElement }
-                    <Breadcrumbs
-                        setPage={setPage}
-                        activePageNumber={activePageNumber}
-                        totalPages={totalPages}
-                    />
+
+                    { isLoading
+                        && <Spinner />}
+
+                    { isError
+                        && <p>Error</p>}
+
+                    { eventsElement.length
+                        && eventsElement}
+
+                    { isSuccess && eventsElement.length
+                        ? <Breadcrumbs
+                            setPage={setPage}
+                            activePageNumber={activePageNumber}
+                            totalPages={totalPages}
+                        />
+                        : ''}
+
+                    { isSuccess && !eventsElement.length
+                        && <p>There are no realty for this request</p>}
                 </div>
                 <div className="col-6 reality-map">
-                    <Map realtyList={[]} />
+                    <Map realtyList={data} />
                 </div>
             </div>
         </div>
