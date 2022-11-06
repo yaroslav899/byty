@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 // API
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
@@ -25,8 +25,6 @@ import { fetchRealtyList } from '@/services';
 // const data = queryClient.getQueryData(['realtyList'], { exact: false });
 
 export default function RealtyListingPage() {
-    console.log('initialize component RealtyListingPage');
-
     useEffect(() => {
         console.log('mounted component RealtyListingPage');
     }, []);
@@ -37,7 +35,6 @@ export default function RealtyListingPage() {
 
     // LocalStorage Hook
     const [pageData, setPageDataToLocalStorage] = useLocalStorage('pageData', null);
-    console.log(pageData);
 
     // Get Params
     const { category } = useParams();
@@ -48,8 +45,6 @@ export default function RealtyListingPage() {
         async () => {
             // TODO: Need to check does it work if user close the tab. Approach should be optimized
             if (pageData && pageData.data.length && pageData.totalPages && pageData.activePageNumber) {
-                // eslint-disable-next-line no-debugger
-                console.log(pageData);
                 setTotalPages(pageData.totalPages);
                 setActivePage(pageData.activePageNumber);
 
@@ -75,14 +70,28 @@ export default function RealtyListingPage() {
         },
     );
 
+    // React ref to store array of refs
+    const scrollRefs = useRef([]);
+    // Populate scrollable refs, only create them once
+    // if the selectedElements array length is expected to change there is a workaround
+    scrollRefs.current = [...Array(data.length).keys()].map(
+        (_, i) => scrollRefs.current[i] ?? createRef(),
+    );
+
+    // Curried handler to take index and return click handler
+    const scrollSmoothHandler = (index) => {
+        scrollRefs.current[index].current.scrollIntoView({ behavior: 'smooth' });
+    };
+
     const eventsElement = data.length
-        ? data.map((event) => <RealtyListElement
+        ? data.map((event, i) => <RealtyListElement
             key={event.id}
             event={event}
             data={data}
             totalPages={totalPages}
             activePageNumber={activePageNumber}
             setPageDataToLocalStorage={setPageDataToLocalStorage}
+            scrollRef={scrollRefs.current[i]}
         />)
         : [];
 
@@ -112,7 +121,7 @@ export default function RealtyListingPage() {
                         && <p>There are no realty for this request</p>}
                 </div>
                 <div className="col-6 reality-map">
-                    <Map realtyList={data} />
+                    <Map realtyList={data} scrollSmoothHandler={scrollSmoothHandler} />
                 </div>
             </div>
         </div>
