@@ -72,28 +72,30 @@ export default function RealtyListingPage() {
 
     // React ref to store array of refs
     const scrollRefs = useRef([]);
-    // Populate scrollable refs, only create them once
-    // if the selectedElements array length is expected to change there is a workaround
-    scrollRefs.current = [...Array(data.length).keys()].map(
-        (_, i) => scrollRefs.current[i] ?? createRef(),
-    );
 
     // Curried handler to take index and return click handler
     const scrollSmoothHandler = (index) => {
         scrollRefs.current[index].current.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const eventsElement = data.length
-        ? data.map((event, i) => <RealtyListElement
+    const eventsElement = [];
+
+    data.forEach((event, index) => {
+        // Populate scrollable refs, only create them once
+        // if the selectedElements array length is expected to change there is a workaround
+        scrollRefs.current[index] = scrollRefs.current[index] || createRef();
+
+        // Populate elements on the page
+        eventsElement.push(<RealtyListElement
             key={event.id}
             event={event}
             data={data}
             totalPages={totalPages}
             activePageNumber={activePageNumber}
             setPageDataToLocalStorage={setPageDataToLocalStorage}
-            scrollRef={scrollRefs.current[i]}
-        />)
-        : [];
+            scrollRef={scrollRefs.current[index]}
+        />);
+    });
 
     return (
         <div className="container-fluid">

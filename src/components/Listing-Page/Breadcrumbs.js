@@ -2,8 +2,6 @@
 import React, { memo } from 'react';
 
 function Breadcrumbs({ setActivePage, activePageNumber, totalPages }) {
-    console.log('breadcrumbs initialization');
-
     const goToPage = (pageNumber) => {
         window.scrollTo(0, 0);
 

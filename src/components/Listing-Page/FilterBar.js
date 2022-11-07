@@ -20,7 +20,7 @@ export default function FilterBar() {
     };
 
     return (
-        <div className="reality-feed__filter-bar filter-bar">
+        <div className="row reality-feed__filter-bar filter-bar">
             <button type="button" className={`col-12 filter-bar__button ${isHide ? '' : 'active'}`} onClick={handleToggle}>
                 <div className="hamburger" />
             </button>

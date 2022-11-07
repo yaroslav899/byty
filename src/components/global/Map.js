@@ -20,19 +20,7 @@ function Map({ realtyList = [], scrollSmoothHandler }) {
         iconSize: [32, 32],
     });
 
-    /* const eventHandlers = useMemo(
-        (i) => ({
-            click(event) {
-                const { lat, lng } = event.latlng;
-                console.log(`Clicked at ${lat}, ${lng}`);
-                console.log(event.target.options.data);
-                // console.log(scrollSmoothHandler);
-                console.log(i);
-            },
-        }),
-        [],
-    ); */
-
+    // Can be optimized with useMemo
     const eventHandlers = (event, i) => {
         const { lat, lng } = event.latlng;
         console.log(`Clicked at ${lat}, ${lng}`);

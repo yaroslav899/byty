@@ -17,9 +17,10 @@
     overflow: hidden;
     margin-top: 10px;
     cursor: pointer;
-
+    
     & > div {
         height:100%;
+        background-color: #F0F0F0;
     }
 
     a {
